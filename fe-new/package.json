@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "fe",
   "version": "1.0.0",
   "description": "",
@@ -10,3 +11,22 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
+=======
+  "name": "fastbite-simple",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "vite": "^5.4.0"
+  }
+}
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a

@@ -1,6 +1,10 @@
 import { useOrders } from '../context/OrderContext.jsx'
 import { useAuth }   from '../context/AuthContext.jsx'
 
+<<<<<<< HEAD
+=======
+// Màu badge theo trạng thái đơn
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
 const STATUS_COLOR = {
   pending:    'warning',
   preparing:  'info',
@@ -9,6 +13,10 @@ const STATUS_COLOR = {
   cancelled:  'danger',
 }
 
+<<<<<<< HEAD
+=======
+// Tên tiếng Việt
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
 const STATUS_LABEL = {
   pending:    'Chờ xác nhận',
   preparing:  'Đang chuẩn bị',
@@ -29,6 +37,10 @@ export default function Orders() {
     )
   }
 
+<<<<<<< HEAD
+=======
+  // User thường chỉ thấy đơn của họ; admin thấy tất cả
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
   const visibleOrders = isAdmin
     ? orders
     : orders.filter(o => o.userId === user.id)
@@ -45,10 +57,18 @@ export default function Orders() {
         visibleOrders.map(order => (
           <div key={order.id} className="border rounded p-3 mb-3">
 
+<<<<<<< HEAD
+=======
+            {/* Dòng tiêu đề đơn */}
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
             <div className="d-flex justify-content-between align-items-center mb-2">
               <div>
                 <span className="fw-semibold">Đơn #{order.id.slice(-6)}</span>
                 <span className="text-muted small ms-2">{order.createdAt}</span>
+<<<<<<< HEAD
+=======
+                {/* Admin thấy tên người đặt */}
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
                 {isAdmin && <span className="text-muted small ms-2">— {order.userName}</span>}
               </div>
               <span className={`badge bg-${STATUS_COLOR[order.status] || 'secondary'}`}>
@@ -56,6 +76,10 @@ export default function Orders() {
               </span>
             </div>
 
+<<<<<<< HEAD
+=======
+            {/* Danh sách món */}
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
             <ul className="list-unstyled mb-2">
               {order.items.map(item => (
                 <li key={item.id} className="small text-muted">
@@ -64,6 +88,10 @@ export default function Orders() {
               ))}
             </ul>
 
+<<<<<<< HEAD
+=======
+            {/* Thông tin giao hàng + tổng */}
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
             <div className="d-flex justify-content-between align-items-end">
               <div className="small text-muted">
                 📍 {order.address} · 📞 {order.phone}
@@ -71,6 +99,10 @@ export default function Orders() {
               <div className="fw-bold text-success">${order.total.toFixed(2)}</div>
             </div>
 
+<<<<<<< HEAD
+=======
+            {/* Admin: nút đổi trạng thái */}
+>>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
             {isAdmin && (
               <div className="mt-2 d-flex gap-2 flex-wrap">
                 {Object.keys(STATUS_LABEL).map(s => (
