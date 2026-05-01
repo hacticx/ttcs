@@ -6,35 +6,15 @@ const User     = require("./userModel.js");
 const MenuItem = require("./menuModel.js");
 const Order    = require("./orderModel.js");
 
-// ─── Dữ liệu mẫu ──────────────────────────────────────────────────────────────
-
 const sampleUsers = [
   {
-    first_name: "Nguyen Van",
-    last_name:  "A",
-    email:      "a@gmail.com",
-    password:   "123456",   // sẽ được hash trước khi lưu
-    role:       "user",
-    phone:      "0901234567",
-    address:    "123 Đường ABC, Hà Nội",
-  },
-  {
-    first_name: "Tran Thi",
-    last_name:  "B",
-    email:      "b@gmail.com",
-    password:   "123456",
-    role:       "user",
-    phone:      "0912345678",
-    address:    "456 Đường XYZ, TP.HCM",
-  },
-  {
     first_name: "Admin",
-    last_name:  "FastBite",
-    email:      "admin@fastbite.com",
+    last_name:  "Account",
+    email:      "admin@gmail.com",
     password:   "admin123",
     role:       "admin",
     phone:      "0999999999",
-    address:    "FastBite HQ",
+    address:    "Ha Noi",
   },
 ];
 
@@ -97,7 +77,6 @@ const sampleMenu = [
   },
 ];
 
-// ─── Hàm chính ─────────────────────────────────────────────────────────────────
 
 async function dbLoad() {
   try {
@@ -109,13 +88,11 @@ async function dbLoad() {
     return;
   }
 
-  // Xoá dữ liệu cũ
   await User.deleteMany({});
   await MenuItem.deleteMany({});
   await Order.deleteMany({});
   console.log("Cleared old data.");
 
-  // Thêm users — hash mật khẩu trước khi lưu
   for (const userData of sampleUsers) {
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     const user = new User({ ...userData, password: hashedPassword });
@@ -127,7 +104,6 @@ async function dbLoad() {
     }
   }
 
-  // Thêm menu items
   for (const itemData of sampleMenu) {
     const item = new MenuItem(itemData);
     try {
@@ -138,7 +114,7 @@ async function dbLoad() {
     }
   }
 
-  console.log("\n✅ Database loaded successfully!");
+  console.log("Database loaded successfully!");
   console.log("Users:", sampleUsers.length);
   console.log("Menu items:", sampleMenu.length);
   mongoose.disconnect();

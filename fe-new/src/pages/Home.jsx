@@ -11,11 +11,7 @@ export default function Home() {
   return (
     <div>
       <div className="p-5 mb-4 bg-light rounded-3 text-center">
-<<<<<<< HEAD
         <h1 className="display-5 fw-bold">🍕 Chào mừng đến X</h1>
-=======
-        <h1 className="display-5 fw-bold">🍕 Chào mừng đến FastBite</h1>
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
         <p className="lead">Đặt đồ ăn nhanh chóng, giao hàng trong 30 phút!</p>
         {user ? (
           <p className="text-muted">Xin chào, <strong>{user.name}</strong>! Bạn muốn ăn gì hôm nay?</p>
@@ -46,10 +42,6 @@ export default function Home() {
         </div>
       </div>
 
-<<<<<<< HEAD
-=======
-      {/* Món nổi bật */}
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
       <h4 className="mb-3">Món nổi bật</h4>
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mb-4">
         {featuredItems.map(item => (

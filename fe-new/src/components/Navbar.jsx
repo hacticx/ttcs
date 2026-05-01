@@ -16,15 +16,8 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
 
-<<<<<<< HEAD
         <Link className="navbar-brand fw-bold" to="/">X</Link>
 
-=======
-        {/* Tên thương hiệu / logo */}
-        <Link className="navbar-brand fw-bold" to="/">🍕 FastBite</Link>
-
-        {/* Nút toggler cho màn hình nhỏ */}
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
         <button
           className="navbar-toggler"
           type="button"
@@ -36,10 +29,6 @@ export default function Navbar() {
 
         <div className="collapse navbar-collapse" id="mainNav">
 
-<<<<<<< HEAD
-=======
-          {/* Menu bên trái */}
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/">Trang chủ</Link>
@@ -50,11 +39,6 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/orders">Đơn hàng</Link>
             </li>
-<<<<<<< HEAD
-
-=======
-            {/* Chỉ admin mới thấy trang này */}
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
             {isAdmin && (
               <li className="nav-item">
                 <Link className="nav-link text-warning" to="/orders">⚙ Quản lý</Link>
@@ -62,15 +46,8 @@ export default function Navbar() {
             )}
           </ul>
 
-<<<<<<< HEAD
           <div className="d-flex align-items-center gap-2">
 
-=======
-          {/* Phần bên phải: giỏ hàng + tài khoản */}
-          <div className="d-flex align-items-center gap-2">
-
-            {/* Nút giỏ hàng — hiện số lượng nếu có món */}
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
             <Link to="/cart" className="btn btn-outline-light btn-sm">
               🛒 Giỏ hàng
               {itemCount > 0 && (
@@ -78,10 +55,6 @@ export default function Navbar() {
               )}
             </Link>
 
-<<<<<<< HEAD
-=======
-            {/* Dropdown tài khoản — chỉ hiện khi đã đăng nhập */}
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a
             {user ? (
               <div className="dropdown">
                 <button className="btn btn-outline-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">

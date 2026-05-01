@@ -1,18 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "fe",
-  "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
-}
-=======
-  "name": "fastbite-simple",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -29,4 +16,3 @@
     "vite": "^5.4.0"
   }
 }
->>>>>>> f5204efff5c69eaf41d1c7f86687d02c7e48271a

@@ -1,8 +1,3 @@
-/**
- * Dữ liệu mẫu để load vào MongoDB lần đầu
- * Tương tự models.js trong mẫu đề bài
- */
-
 function menuListModel() {
   return [
     {
@@ -74,22 +69,10 @@ function menuListModel() {
 
 function userListModel() {
   return [
+    
     {
-      name: "Nguyễn Văn A",
-      email: "a@gmail.com",
-      // Mật khẩu "123456" — sẽ được hash trong dbLoad.js
-      password: "123456",
-      role: "user",
-    },
-    {
-      name: "Trần Thị B",
-      email: "b@gmail.com",
-      password: "123456",
-      role: "user",
-    },
-    {
-      name: "Admin FastBite",
-      email: "admin@fastbite.com",
+      name: "Admin Account",
+      email: "admin@gmail.com",
       password: "admin123",
       role: "admin",
     },

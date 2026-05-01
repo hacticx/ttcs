@@ -3,16 +3,10 @@ const MenuItem = require("../db/menuModel.js");
 const { requireLogin, requireAdmin } = require("../middleware/requireLogin.js");
 const router   = express.Router();
 
-/**
- * GET /api/menu
- * Lấy toàn bộ menu (ai cũng xem được, kể cả chưa đăng nhập)
- * Query: ?category=burger  → lọc theo danh mục
- */
 router.get("/", async (req, res) => {
   try {
-    const filter = { available: true }; // chỉ lấy món đang bán
+    const filter = { available: true };
 
-    // Nếu có query ?category=... thì thêm vào filter
     if (req.query.category) {
       filter.category = req.query.category;
     }
@@ -25,10 +19,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-/**
- * GET /api/menu/:id
- * Lấy chi tiết 1 món theo ID
- */
 router.get("/:id", async (req, res) => {
   try {
     const item = await MenuItem.findById(req.params.id);
@@ -41,11 +31,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/**
- * POST /api/menu
- * Thêm món mới — chỉ admin
- * Body: { name, description, price, category, image }
- */
 router.post("/", requireLogin, requireAdmin, async (req, res) => {
   try {
     const { name, description, price, category, image } = req.body;
@@ -65,16 +50,12 @@ router.post("/", requireLogin, requireAdmin, async (req, res) => {
   }
 });
 
-/**
- * PUT /api/menu/:id
- * Cập nhật món — chỉ admin
- */
 router.put("/:id", requireLogin, requireAdmin, async (req, res) => {
   try {
     const item = await MenuItem.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true } // trả về document sau khi update
+      { new: true }
     );
     if (!item) {
       return res.status(404).json({ error: "Khong tim thay mon an." });
@@ -85,10 +66,6 @@ router.put("/:id", requireLogin, requireAdmin, async (req, res) => {
   }
 });
 
-/**
- * DELETE /api/menu/:id
- * Ẩn món (available = false) — chỉ admin, không xoá hẳn
- */
 router.delete("/:id", requireLogin, requireAdmin, async (req, res) => {
   try {
     const item = await MenuItem.findByIdAndUpdate(
