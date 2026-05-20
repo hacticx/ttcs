@@ -1,4 +1,3 @@
-// Dữ liệu menu tĩnh — sau này thay bằng gọi API từ backend
 const menuItems = [
   {
     id: '1',

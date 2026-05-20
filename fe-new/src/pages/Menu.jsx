@@ -1,22 +1,36 @@
-import { useState } from 'react'
-import menuItems from '../data/menuData.js'
+import { useState, useEffect } from 'react'
+import { apiGet } from '../api.js'
 import MenuItem from '../components/MenuItem.jsx'
 
 const CATEGORIES = ['all', 'burger', 'pizza', 'chicken', 'sides', 'drinks']
 
 export default function Menu() {
-  const [activeCategory, setActiveCategory] = useState('all')
-  const [search, setSearch] = useState('')
+  const [items, setItems]               = useState([])
+  const [activeCategory, setCategory]   = useState('all')
+  const [search, setSearch]             = useState('')
+  const [loading, setLoading]           = useState(true)
+  const [error, setError]               = useState('')
 
-  const filtered = menuItems.filter(item => {
-    const matchCategory = activeCategory === 'all' || item.category === activeCategory
-    const matchSearch   = item.name.toLowerCase().includes(search.toLowerCase())
-    return matchCategory && matchSearch
+  useEffect(() => {
+    apiGet("/menu")
+      .then(data => setItems(data))
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const filtered = items.filter(item => {
+    const matchCat    = activeCategory === 'all' || item.category === activeCategory
+    const matchSearch = item.name.toLowerCase().includes(search.toLowerCase())
+    return matchCat && matchSearch
   })
+
+  if (loading) return <p>Đang tải thực đơn...</p>
+  if (error)   return <p className="text-danger">{error}</p>
 
   return (
     <div>
       <h3 className="mb-3">Thực đơn</h3>
+
       <input
         type="text"
         className="form-control mb-3"
@@ -30,24 +44,20 @@ export default function Menu() {
           <button
             key={cat}
             className={`btn btn-sm ${activeCategory === cat ? 'btn-dark' : 'btn-outline-dark'}`}
-            onClick={() => setActiveCategory(cat)}
+            onClick={() => setCategory(cat)}
           >
             {cat === 'all' ? 'Tất cả' : cat}
           </button>
         ))}
       </div>
 
-      {filtered.length === 0 ? (
-        <p className="text-muted">Không tìm thấy món nào.</p>
-      ) : (
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-          {filtered.map(item => (
-            <div className="col" key={item.id}>
-              <MenuItem item={item} />
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="row row-cols-1 row-cols-md-3 g-3">
+        {filtered.map(item => (
+          <div className="col" key={item._id}>
+            <MenuItem item={item} />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

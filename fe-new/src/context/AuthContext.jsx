@@ -1,31 +1,38 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
+import { apiGet, apiPost } from '../api.js'
 
 const AuthContext = createContext(null)
 
-const Acc = [
-  { id: 'ad', name: 'Admin',
-    email: 'admin@gmail.com',
-    isAdmin: true  },
-]
-
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  function login(email, password) {
-    const found = Acc.find(a => a.email === email)
-    if (found) {
-      setUser(found)
-      return true
-    }
-    return false 
+  useEffect(() => {
+    apiGet("/auth/check")
+      .then(data => setUser(data.user))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false))
+  }, [])
+
+  async function login(email, password) {
+    const data = await apiPost("/auth/login", { email, password })
+    setUser(data.user)
   }
 
-  function logout() {
+  async function register(first_name, last_name, email, password) {
+    const data = await apiPost("/auth/register", { first_name, last_name, email, password })
+    return data
+  }
+
+  async function logout() {
+    await apiPost("/auth/logout", {})
     setUser(null)
   }
 
+  if (loading) return <div className="text-center p-5">Đang tải...</div>
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAdmin: user?.isAdmin ?? false }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isAdmin: user?.role === "admin" }}>
       {children}
     </AuthContext.Provider>
   )

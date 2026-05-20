@@ -1,29 +1,41 @@
 import { createContext, useContext, useState } from 'react'
+import { apiGet, apiPost, apiPut, apiDelete } from '../api.js'
 
 const OrderContext = createContext(null)
 
 export function OrderProvider({ children }) {
   const [orders, setOrders] = useState([])
 
-  function placeOrder(orderData) {
-    const newOrder = {
-      id: Date.now().toString(),
-      ...orderData,
-      status: 'pending', 
-      createdAt: new Date().toLocaleString('vi-VN'),
-    }
-    setOrders(prev => [newOrder, ...prev])
-    return newOrder
+  async function fetchOrders() {
+    const data = await apiGet("/orders")
+    setOrders(data)
   }
 
-  function updateStatus(orderId, newStatus) {
+  // Đặt hàng mới
+  async function placeOrder(orderData) {
+    const data = await apiPost("/orders", orderData)
+    setOrders(prev => [data.order, ...prev])
+    return data.order
+  }
+
+  // Admin đổi trạng thái
+  async function updateStatus(orderId, newStatus) {
+    await apiPut(`/orders/${orderId}/status`, { status: newStatus })
     setOrders(prev =>
-      prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o)
+      prev.map(o => o._id === orderId ? { ...o, status: newStatus } : o)
+    )
+  }
+
+  // Huỷ đơn
+  async function cancelOrder(orderId) {
+    await apiDelete(`/orders/${orderId}`)
+    setOrders(prev =>
+      prev.map(o => o._id === orderId ? { ...o, status: "cancelled" } : o)
     )
   }
 
   return (
-    <OrderContext.Provider value={{ orders, placeOrder, updateStatus }}>
+    <OrderContext.Provider value={{ orders, fetchOrders, placeOrder, updateStatus, cancelOrder }}>
       {children}
     </OrderContext.Provider>
   )

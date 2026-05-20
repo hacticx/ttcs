@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useOrders } from '../context/OrderContext.jsx'
 import { useAuth }   from '../context/AuthContext.jsx'
 
@@ -18,8 +19,12 @@ const STATUS_LABEL = {
 }
 
 export default function Orders() {
-  const { orders, updateStatus } = useOrders()
+  const { orders, fetchOrders, updateStatus } = useOrders()
   const { user, isAdmin } = useAuth()
+
+  useEffect(() => {
+    if (user) fetchOrders()
+  }, [user])
 
   if (!user) {
     return (
@@ -29,27 +34,28 @@ export default function Orders() {
     )
   }
 
-  const visibleOrders = isAdmin
-    ? orders
-    : orders.filter(o => o.userId === user.id)
-
   return (
     <div>
       <h4 className="mb-3">
         {isAdmin ? '⚙ Quản lý đơn hàng (Admin)' : 'Đơn hàng của bạn'}
       </h4>
 
-      {visibleOrders.length === 0 ? (
+      {orders.length === 0 ? (
         <p className="text-muted">Chưa có đơn hàng nào.</p>
       ) : (
-        visibleOrders.map(order => (
-          <div key={order.id} className="border rounded p-3 mb-3">
+        orders.map(order => (
+          <div key={order._id} className="border rounded p-3 mb-3">
 
             <div className="d-flex justify-content-between align-items-center mb-2">
               <div>
-                <span className="fw-semibold">Đơn #{order.id.slice(-6)}</span>
-                <span className="text-muted small ms-2">{order.createdAt}</span>
-                {isAdmin && <span className="text-muted small ms-2">— {order.userName}</span>}
+                <span className="fw-semibold">Đơn #{order._id.slice(-6)}</span>
+                {/* ✅ sửa created_at + format ngày */}
+                <span className="text-muted small ms-2">
+                  {new Date(order.created_at).toLocaleString('vi-VN')}
+                </span>
+                {isAdmin && (
+                  <span className="text-muted small ms-2">— {order.user_name}</span>
+                )}
               </div>
               <span className={`badge bg-${STATUS_COLOR[order.status] || 'secondary'}`}>
                 {STATUS_LABEL[order.status] || order.status}
@@ -58,7 +64,8 @@ export default function Orders() {
 
             <ul className="list-unstyled mb-2">
               {order.items.map(item => (
-                <li key={item.id} className="small text-muted">
+                // ✅ sửa item._id
+                <li key={item._id} className="small text-muted">
                   {item.name} × {item.quantity} — ${(item.price * item.quantity).toFixed(2)}
                 </li>
               ))}
@@ -77,7 +84,7 @@ export default function Orders() {
                   <button
                     key={s}
                     className={`btn btn-sm ${order.status === s ? 'btn-dark' : 'btn-outline-secondary'}`}
-                    onClick={() => updateStatus(order.id, s)}
+                    onClick={() => updateStatus(order._id, s)}
                   >
                     {STATUS_LABEL[s]}
                   </button>
