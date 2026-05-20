@@ -93,7 +93,7 @@ router.post("/logout", (req, res) => {
   });
 });
 
-router.get("/me", (req, res) => {
+router.get("/check", (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ error: "Chua dang nhap." });
   }

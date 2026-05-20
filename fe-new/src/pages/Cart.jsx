@@ -16,32 +16,30 @@ export default function Cart() {
   function handleFormChange(e) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
-
-  function handleCheckout() {
-    if (!user) {
-      setMessage('Vui lòng đăng nhập trước khi đặt hàng.')
-      return
+  
+  async function handleCheckout() {
+    if (!user)           return setMessage('Vui lòng đăng nhập.')
+    if (!cart.length)    return setMessage('Giỏ hàng trống.')
+    if (!form.name || !form.phone || !form.address) 
+      return setMessage('Điền đủ thông tin giao hàng.')
+    try {
+      await placeOrder({
+        items: cart.map(i => ({
+          menu_item_id: i._id,
+          name:         i.name,
+          price:        i.price,
+          quantity:     i.quantity,
+        })),
+        total,
+        customer_name: form.name,
+        phone:         form.phone,
+        address:       form.address,
+      })
+      clearCart()
+      navigate('/orders')
+    } catch (err) {
+      setMessage(err.message)
     }
-    if (cart.length === 0) {
-      setMessage('Giỏ hàng đang trống.')
-      return
-    }
-    if (!form.name || !form.phone || !form.address) {
-      setMessage('Vui lòng điền đầy đủ thông tin giao hàng.')
-      return
-    }
-
-    placeOrder({
-      userId:   user.id,
-      userName: user.name,
-      items:    cart,
-      total,
-      ...form,
-    })
-
-    clearCart()
-    setMessage('')
-    navigate('/orders')
   }
 
   if (cart.length === 0 && !message) {

@@ -15,17 +15,19 @@ export default function Login() {
     return null
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     setError('')
-
-    const success = login(email, password)
-    if (success) {
+    setLoading(true)
+    try {
+      await login(email, password)
       navigate('/')
-    } else {
-      setError('Email không đúng.')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-  }
+}
 
   return (
     <div className="row justify-content-center">
