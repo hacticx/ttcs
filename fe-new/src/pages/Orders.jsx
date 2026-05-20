@@ -49,7 +49,6 @@ export default function Orders() {
             <div className="d-flex justify-content-between align-items-center mb-2">
               <div>
                 <span className="fw-semibold">Đơn #{order._id.slice(-6)}</span>
-                {/* ✅ sửa created_at + format ngày */}
                 <span className="text-muted small ms-2">
                   {new Date(order.created_at).toLocaleString('vi-VN')}
                 </span>
@@ -64,7 +63,6 @@ export default function Orders() {
 
             <ul className="list-unstyled mb-2">
               {order.items.map(item => (
-                // ✅ sửa item._id
                 <li key={item._id} className="small text-muted">
                   {item.name} × {item.quantity} — ${(item.price * item.quantity).toFixed(2)}
                 </li>
