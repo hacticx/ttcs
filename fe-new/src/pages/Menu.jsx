@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { apiGet } from '../api.js'
+import api from '../api.js'
 import MenuItem from '../components/MenuItem.jsx'
 
 const CATEGORIES = ['all', 'burger', 'pizza', 'chicken', 'sides', 'drinks']
@@ -12,7 +12,7 @@ export default function Menu() {
   const [error, setError]               = useState('')
 
   useEffect(() => {
-    apiGet("/menu")
+    api.get("/menu")
       .then(data => setItems(data))
       .catch(err => setError(err.message))
       .finally(() => setLoading(false))

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { apiGet, apiPost, apiPut, apiDelete } from '../api.js'
+import api from '../api.js'
 
 const OrderContext = createContext(null)
 
@@ -7,20 +7,20 @@ export function OrderProvider({ children }) {
   const [orders, setOrders] = useState([])
 
   async function fetchOrders() {
-    const data = await apiGet("/orders")
+    const data = await api.get("/orders")
     setOrders(data)
   }
 
   // Đặt hàng mới
   async function placeOrder(orderData) {
-    const data = await apiPost("/orders", orderData)
+    const data = await api.post("/orders", orderData)
     setOrders(prev => [data.order, ...prev])
     return data.order
   }
 
   // Admin đổi trạng thái
   async function updateStatus(orderId, newStatus) {
-    await apiPut(`/orders/${orderId}/status`, { status: newStatus })
+    await api.put(`/orders/${orderId}/status`, { status: newStatus })
     setOrders(prev =>
       prev.map(o => o._id === orderId ? { ...o, status: newStatus } : o)
     )
@@ -28,7 +28,7 @@ export function OrderProvider({ children }) {
 
   // Huỷ đơn
   async function cancelOrder(orderId) {
-    await apiDelete(`/orders/${orderId}`)
+    await api.delete(`/orders/${orderId}`)
     setOrders(prev =>
       prev.map(o => o._id === orderId ? { ...o, status: "cancelled" } : o)
     )
